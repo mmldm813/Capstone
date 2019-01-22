@@ -14,11 +14,29 @@ public class UserInfo implements Serializable {
 
     private String name;
 
-    private int heightInInches;
+    private long feet;
+
+    private long inches;
 
     private int weightInLbs;
 
     private Date dateOfBirth;
+
+    public long getFeet() {
+        return feet;
+    }
+
+    public void setFeet(long feet) {
+        this.feet = feet;
+    }
+
+    public long getInches() {
+        return inches;
+    }
+
+    public void setInches(long inches) {
+        this.inches = inches;
+    }
 
     public enum Gender{
         MALE,
@@ -39,14 +57,6 @@ public class UserInfo implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getHeightInInches() {
-        return heightInInches;
-    }
-
-    public void setHeightInInches(int heightInInches) {
-        this.heightInInches = heightInInches;
     }
 
     public int getWeightInLbs() {
