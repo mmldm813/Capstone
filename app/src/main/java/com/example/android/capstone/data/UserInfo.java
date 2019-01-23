@@ -2,11 +2,16 @@ package com.example.android.capstone.data;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverter;
+import android.arch.persistence.room.TypeConverters;
+
+import com.example.android.capstone.database.GenderConverter;
 
 import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
+@TypeConverters(GenderConverter.class)
 public class UserInfo implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
@@ -22,6 +27,31 @@ public class UserInfo implements Serializable {
 
     private Date dateOfBirth;
 
+    private Gender gender;
+
+    public enum Gender {
+        MALE("Male"),
+        FEMALE("Female");
+
+        private final String databaseKey;
+
+        Gender(final String databaseKey) {
+            this.databaseKey = databaseKey;
+        }
+
+        public String getDatabaseKey() {
+            return databaseKey;
+        }
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
     public long getFeet() {
         return feet;
     }
@@ -36,11 +66,6 @@ public class UserInfo implements Serializable {
 
     public void setInches(long inches) {
         this.inches = inches;
-    }
-
-    public enum Gender{
-        MALE,
-        FEMALE
     }
 
     public int getUserId() {
