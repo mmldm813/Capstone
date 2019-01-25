@@ -22,10 +22,12 @@ import com.example.android.capstone.database.AppExecutors;
 
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.List;
 
 public class UserInfoActivity extends AppCompatActivity {
 
     private AppDatabase db;
+    private UserInfo userInfo;
 
     private TextInputEditText nameTextBox;
     private TextInputEditText weightTextBox;
@@ -59,7 +61,6 @@ public class UserInfoActivity extends AppCompatActivity {
         setListenersOnSpinners();
         setupListenerOnSaveButton();
         setListenerOnCalendarButton();
-
     }
 
     public void findViews() {
@@ -190,6 +191,36 @@ public class UserInfoActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        loadUserInfo();
+    }
 
+    private void loadUserInfo() {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<UserInfo> userInfoList = db.userDao().loadAllUserInfo();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (userInfoList.size() > 0) {
+                            userInfo = userInfoList.get(0);
+                            refreshUi();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void refreshUi() {
+        nameTextBox.setText(userInfo.getName());
+        feetSpinner.setSelection((int) userInfo.getFeet());
+        inchesSpinner.setSelection((int) userInfo.getInches());
+        weightTextBox.setText(String.valueOf(userInfo.getWeightInLbs()));
+        if (userInfo.getGender() == UserInfo.Gender.MALE){
+            maleButton.setChecked(true);
+        } else {
+            femaleButton.setChecked(true);
+        }
     }
 }

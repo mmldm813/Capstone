@@ -52,7 +52,7 @@ public class JournalActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (userInfo == null) {
+                        if (userInfo.size() == 0) {
                             UserInfoActivity.startWith(JournalActivity.this);
                         }
                     }
