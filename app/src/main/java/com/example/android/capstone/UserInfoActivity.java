@@ -1,5 +1,6 @@
 package com.example.android.capstone;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
@@ -22,9 +23,9 @@ import com.example.android.capstone.database.AppExecutors;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class PersonalInfoActivity extends AppCompatActivity {
+public class UserInfoActivity extends AppCompatActivity {
 
-    private static AppDatabase db;
+    private AppDatabase db;
 
     private TextInputEditText nameTextBox;
     private TextInputEditText weightTextBox;
@@ -41,6 +42,11 @@ public class PersonalInfoActivity extends AppCompatActivity {
     private UserInfo.Gender gender;
 
     private DatePickerDialog pickerDialog;
+
+    public static void startWith(Activity activity) {
+        Intent intent = new Intent(activity, UserInfoActivity.class);
+        activity.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +123,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
                 // date picker dialog
-                pickerDialog = new DatePickerDialog(PersonalInfoActivity.this,
+                pickerDialog = new DatePickerDialog(UserInfoActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -151,7 +157,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveToDatabase(v);
-                Intent loadJournalActivity = new Intent(PersonalInfoActivity.this, JournalActivity.class);
+                Intent loadJournalActivity = new Intent(UserInfoActivity.this, JournalActivity.class);
                 startActivity(loadJournalActivity);
             }
         });
@@ -179,5 +185,11 @@ public class PersonalInfoActivity extends AppCompatActivity {
                 db.userDao().insertUserInfo(userInfo);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 }
