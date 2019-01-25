@@ -1,6 +1,7 @@
 package com.example.android.capstone;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,11 +17,12 @@ import android.widget.TextView;
 
 import com.example.android.capstone.data.UserInfo;
 import com.example.android.capstone.database.AppDatabase;
+import com.example.android.capstone.database.AppExecutors;
 
 import java.sql.Date;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity {
+public class PersonalInfoActivity extends AppCompatActivity {
 
     private static AppDatabase db;
 
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
                 // date picker dialog
-                pickerDialog = new DatePickerDialog(MainActivity.this,
+                pickerDialog = new DatePickerDialog(PersonalInfoActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -149,6 +151,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveToDatabase(v);
+                Intent loadJournalActivity = new Intent(PersonalInfoActivity.this, JournalActivity.class);
+                startActivity(loadJournalActivity);
             }
         });
     }
@@ -162,15 +166,18 @@ public class MainActivity extends AppCompatActivity {
         String[] datePieces = date.split("/");
         Date newDate = Date.valueOf(datePieces[2] + "-" + datePieces[0] + "-" + datePieces[1]);
 
-        UserInfo userInfo = new UserInfo();
+        final UserInfo userInfo = new UserInfo();
         userInfo.setName(name);
         userInfo.setFeet(resultInFeet);
         userInfo.setInches(resultInInches);
         userInfo.setWeightInLbs(adjWeight);
         userInfo.setDateOfBirth(newDate);
         userInfo.setGender(gender);
-        db.userDao().insertUserInfo(userInfo);
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                db.userDao().insertUserInfo(userInfo);
+            }
+        });
     }
-
-
 }
