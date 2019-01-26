@@ -3,15 +3,14 @@ package com.example.android.capstone;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,12 +35,11 @@ public class UserInfoActivity extends AppCompatActivity {
     private long resultInFeet;
     private long resultInInches;
     private Button saveButton;
-    private ImageView calendarImage;
     private TextView dateText;
     private RadioButton maleButton;
     private RadioButton femaleButton;
 
-    private UserInfo.Gender gender;
+//    private UserInfo.Gender gender;
 
     private DatePickerDialog pickerDialog;
 
@@ -53,7 +51,7 @@ public class UserInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.user_info_layout);
 
         db = AppDatabase.getInstance(getApplicationContext());
         findViews();
@@ -68,7 +66,6 @@ public class UserInfoActivity extends AppCompatActivity {
         feetSpinner = findViewById(R.id.feet);
         inchesSpinner = findViewById(R.id.inches);
         weightTextBox = findViewById(R.id.weight_edit_text);
-        calendarImage = findViewById(R.id.image_calendar);
         dateText = findViewById(R.id.date_text);
         maleButton = findViewById(R.id.male_button);
         femaleButton = findViewById(R.id.female_button);
@@ -116,7 +113,7 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     public void setListenerOnCalendarButton() {
-        calendarImage.setOnClickListener(new View.OnClickListener() {
+        dateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
@@ -128,7 +125,7 @@ public class UserInfoActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                dateText.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
+                                dateText.setText(year + "-" + (monthOfYear + 1 + "-" + dayOfMonth));
                             }
                         }, year, month, day);
                 pickerDialog.show();
@@ -136,54 +133,54 @@ public class UserInfoActivity extends AppCompatActivity {
         });
     }
 
-    public void onRadioButtonClick(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-        switch (view.getId()) {
-            case R.id.male_button:
-                if (checked) {
-                    gender = UserInfo.Gender.MALE;
-                }
-                break;
-            case R.id.female_button:
-                if (checked) {
-                    gender = UserInfo.Gender.FEMALE;
-                }
-                break;
-        }
-
-    }
-
     private void setupListenerOnSaveButton() {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveToDatabase(v);
-                Intent loadJournalActivity = new Intent(UserInfoActivity.this, JournalActivity.class);
-                startActivity(loadJournalActivity);
+                finish();
             }
         });
     }
 
     public void saveToDatabase(View view) {
+        final boolean isUpdate;
+        if (userInfo == null) {
+            isUpdate = false;
+            userInfo = new UserInfo();
+        } else {
+            isUpdate = true;
+        }
+
         String name = nameTextBox.getText().toString();
-        String weight = weightTextBox.getText().toString();
-        int adjWeight = Integer.parseInt(weight);
-
-        String date = dateText.getText().toString();
-        String[] datePieces = date.split("/");
-        Date newDate = Date.valueOf(datePieces[2] + "-" + datePieces[0] + "-" + datePieces[1]);
-
-        final UserInfo userInfo = new UserInfo();
         userInfo.setName(name);
+
         userInfo.setFeet(resultInFeet);
         userInfo.setInches(resultInInches);
-        userInfo.setWeightInLbs(adjWeight);
-        userInfo.setDateOfBirth(newDate);
+
+        String weight = weightTextBox.getText().toString();
+        userInfo.setWeightInLbs(Integer.parseInt(weight));
+
+        String dateOfBirthText = dateText.getText().toString();
+        Date dateOfBirth = Date.valueOf(dateOfBirthText);
+        userInfo.setDateOfBirth(dateOfBirth);
+
+        UserInfo.Gender gender;
+        if (maleButton.isChecked()) {
+            gender = UserInfo.Gender.MALE;
+        } else {
+            gender = UserInfo.Gender.FEMALE;
+        }
         userInfo.setGender(gender);
+
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                db.userDao().insertUserInfo(userInfo);
+                if (isUpdate){
+                    db.userDao().updateUserInfo(userInfo);
+                } else {
+                    db.userDao().insertUserInfo(userInfo);
+                }
             }
         });
     }
@@ -217,10 +214,12 @@ public class UserInfoActivity extends AppCompatActivity {
         feetSpinner.setSelection((int) userInfo.getFeet());
         inchesSpinner.setSelection((int) userInfo.getInches());
         weightTextBox.setText(String.valueOf(userInfo.getWeightInLbs()));
+        dateText.setText(userInfo.getDateOfBirth().toString());
         if (userInfo.getGender() == UserInfo.Gender.MALE){
             maleButton.setChecked(true);
         } else {
             femaleButton.setChecked(true);
         }
+        saveButton.setText("Update");
     }
 }

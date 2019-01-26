@@ -18,7 +18,7 @@ public class JournalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_journal);
+        setContentView(R.layout.journal_layout);
 
         db = AppDatabase.getInstance(getApplicationContext());
     }
