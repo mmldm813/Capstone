@@ -125,7 +125,7 @@ public class UserInfoActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                dateText.setText(year + "-" + (monthOfYear + 1 + "-" + dayOfMonth));
+                                dateText.setText(String.format("%s-%02d-%02d", year, (monthOfYear + 1), dayOfMonth));
                             }
                         }, year, month, day);
                 pickerDialog.show();
