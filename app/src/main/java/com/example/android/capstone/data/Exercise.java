@@ -11,13 +11,13 @@ public class Exercise implements Serializable{
     @PrimaryKey(autoGenerate = true)
     private int exerciseId;
 
-    private String nameOfExercise;
+    private int program;
 
-    private long distanceInMeters;
+    private int orderNumber;
 
-    private long timeLimit;
+    private String name;
 
-    private int targetCount;
+    private long timeLimitInSeconds;
 
     public int getExerciseId() {
         return exerciseId;
@@ -27,35 +27,26 @@ public class Exercise implements Serializable{
         this.exerciseId = exerciseId;
     }
 
-    public String getNameOfExercise() {
-        return nameOfExercise;
+    public String getName() {
+        return name;
     }
 
-    public void setNameOfExercise(String nameOfExercise) {
-        this.nameOfExercise = nameOfExercise;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public long getDistanceInMeters() {
-        return distanceInMeters;
+    public long getTimeLimitInSeconds() {
+        return timeLimitInSeconds;
     }
 
-    public void setDistanceInMeters(long distanceInMeters) {
-        this.distanceInMeters = distanceInMeters;
+    public void setTimeLimitInSeconds(long timeLimitInSeconds) {
+        this.timeLimitInSeconds = timeLimitInSeconds;
     }
 
-    public long getTimeLimit() {
-        return timeLimit;
-    }
-
-    public void setTimeLimit(long timeLimit) {
-        this.timeLimit = timeLimit;
-    }
-
-    public int getTargetCount() {
-        return targetCount;
-    }
-
-    public void setTargetCount(int targetCount) {
-        this.targetCount = targetCount;
+    public Exercise(int program, int orderNumber, String name, long timeLimitInSeconds) {
+        this.program = program;
+        this.orderNumber = orderNumber;
+        this.name = name;
+        this.timeLimitInSeconds = timeLimitInSeconds;
     }
 }
