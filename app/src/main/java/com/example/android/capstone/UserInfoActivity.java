@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,6 +31,11 @@ public class UserInfoActivity extends AppCompatActivity {
 
     private TextInputEditText nameTextBox;
     private TextInputEditText weightTextBox;
+    private TextInputLayout nameLayout;
+    private TextInputLayout weightLayout;
+    private TextView heightErrorText;
+    private TextView dobErrorText;
+    private TextView genderErrorText;
     private Spinner feetSpinner;
     private Spinner inchesSpinner;
     private long resultInFeet;
@@ -38,8 +44,6 @@ public class UserInfoActivity extends AppCompatActivity {
     private TextView dateText;
     private RadioButton maleButton;
     private RadioButton femaleButton;
-
-//    private UserInfo.Gender gender;
 
     private DatePickerDialog pickerDialog;
 
@@ -70,6 +74,11 @@ public class UserInfoActivity extends AppCompatActivity {
         maleButton = findViewById(R.id.male_button);
         femaleButton = findViewById(R.id.female_button);
         saveButton = findViewById(R.id.save_button);
+        nameLayout = findViewById(R.id.nameTextInputLayout);
+        heightErrorText = findViewById(R.id.height_error_text);
+        weightLayout = findViewById(R.id.weightTextInputLayout);
+        dobErrorText = findViewById(R.id.dob_error_text);
+        genderErrorText = findViewById(R.id.gender_error_text);
     }
 
     public void setupSpinners() {
@@ -137,10 +146,56 @@ public class UserInfoActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveToDatabase(v);
-                finish();
+                if (validateFields()) {
+                    saveToDatabase(v);
+                    finish();
+                }
             }
         });
+    }
+
+    private boolean validateFields() {
+        boolean isValid = true;
+
+        String name = nameTextBox.getText().toString();
+        if (name.isEmpty()){
+            nameLayout.setError("Please enter valid name.");
+            isValid = false;
+        } else {
+            nameLayout.setError(null);
+        }
+
+        if (resultInFeet < 4) {
+            heightErrorText.setVisibility(View.VISIBLE);
+            isValid = false;
+        } else {
+            heightErrorText.setVisibility(View.INVISIBLE);
+        }
+
+        String weight = weightTextBox.getText().toString();
+        if (weight.isEmpty() || Integer.parseInt(weight) < 80 || Integer.parseInt(weight) > 300) {
+            weightLayout.setError("Please enter weight between 80 and 300 lbs.");
+            isValid = false;
+        } else {
+            weightLayout.setError(null);
+        }
+
+        String dateOfBirthText = dateText.getText().toString();
+        if (!dateOfBirthText.contains("-")) {
+            dobErrorText.setVisibility(View.VISIBLE);
+            isValid = false;
+        } else {
+            dobErrorText.setVisibility(View.INVISIBLE);
+        }
+
+        if (!maleButton.isChecked() && !femaleButton.isChecked()){
+            genderErrorText.setVisibility(View.VISIBLE);
+            isValid = false;
+        } else {
+            genderErrorText.setVisibility(View.INVISIBLE);
+        }
+
+        return isValid;
     }
 
     public void saveToDatabase(View view) {

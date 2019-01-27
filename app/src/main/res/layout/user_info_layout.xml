@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".UserInfoActivity">
 
@@ -11,29 +11,35 @@
         android:id="@+id/title_personal_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_margin="8dp"
         android:gravity="center_horizontal"
         android:text="User Information"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/nameTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp">
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="15dp"
+        app:errorEnabled="true">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Name"
-            app:hintEnabled="true"/>
+            app:hintEnabled="true" />
 
     </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="Height"
+        android:textSize="16sp" />
 
     <LinearLayout
         android:id="@+id/layoutForHeight"
@@ -41,59 +47,97 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="Ft." />
+
         <Spinner
             android:id="@+id/feet"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1">
 
         </Spinner>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="In." />
+
         <Spinner
             android:id="@+id/inches"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1">
 
         </Spinner>
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/height_error_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please enter height greater than 4 feet."
+        android:textSize="12dp"
+        android:textColor="@android:color/holo_red_light"
+        android:layout_marginLeft="8dp"
+        android:visibility="invisible"
+        tools:visibility="visible"/>
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/weightTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp">
+        android:layout_margin="8dp"
+        app:errorEnabled="true">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/weight_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Weight"
-            app:hintEnabled="true"/>
+            app:hintEnabled="true"
+            android:inputType="number"/>
 
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/date_text_layout"
+    <TextView
+        android:id="@+id/date_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp">
+        android:layout_margin="8dp"
+        android:text="Date of Birth"
+        android:textSize="16sp"/>
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/date_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Date of Birth"
-            app:hintEnabled="true"
-            android:editable="false"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:background="@android:color/darker_gray"/>
 
-    </android.support.design.widget.TextInputLayout>
+    <TextView
+        android:id="@+id/dob_error_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please enter valid date."
+        android:textSize="12dp"
+        android:textColor="@android:color/holo_red_light"
+        android:layout_marginLeft="8dp"
+        android:visibility="invisible"
+        tools:visibility="visible"/>
 
     <RadioGroup
         android:id="@+id/radiobutton_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -110,12 +154,30 @@
 
     </RadioGroup>
 
-
-    <Button
-        android:id="@+id/save_button"
+    <TextView
+        android:id="@+id/gender_error_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="save"/>
+        android:text="Please choose a gender."
+        android:textSize="12dp"
+        android:textColor="@android:color/holo_red_light"
+        android:layout_marginLeft="8dp"
+        android:visibility="invisible"
+        tools:visibility="visible"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="8dp"
+            android:text="save" />
+
+    </RelativeLayout>
+
 
 </LinearLayout>
