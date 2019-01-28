@@ -45,11 +45,12 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
 
     public void setData(List<Exercise> exercises) {
         if (exercises != null) {
-            exercises.clear();
-            exercises.addAll(exercises);
+            this.exercises.clear();
+            this.exercises.addAll(exercises);
         } else {
             this.exercises = exercises;
         }
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -66,7 +67,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
 
         void bind(final Exercise exercise){
             if (exercise != null) {
-                order.setText(exercise.getOrderNumber());
+                order.setText(Integer.toString(exercise.getOrderNumber()));
                 exerciseName.setText(exercise.getName());
                 exerciseTime.setText(Long.toString(exercise.getTimeLimitInSeconds()));
             }

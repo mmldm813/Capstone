@@ -1,8 +1,7 @@
 package com.example.android.capstone.journal;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
-import android.content.Intent;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +15,7 @@ import com.example.android.capstone.data.UserInfo;
 import com.example.android.capstone.database.AppDatabase;
 import com.example.android.capstone.exercise_program.ProgramActivity;
 import com.example.android.capstone.userinfo.UserInfoActivity;
+import com.example.android.capstone.userinfo.UserInfoViewModel;
 
 import java.util.List;
 
@@ -24,7 +24,10 @@ import timber.log.Timber;
 public class JournalActivity extends AppCompatActivity {
 
     private AppDatabase db;
+    private UserInfo userInfo;
     private FloatingActionButton fab;
+
+    // FIXME - add spinner
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +61,16 @@ public class JournalActivity extends AppCompatActivity {
     }
 
     private void performFirstTimeUserExperience() {
-        final LiveData<List<UserInfo>> userInfo = db.userDao().loadAllUserInfo();
-        userInfo.observe(this, new Observer<List<UserInfo>>() {
+        UserInfoViewModel viewModel = ViewModelProviders.of(this).get(UserInfoViewModel.class);
+        viewModel.getUserInfo().observe(this, new Observer<List<UserInfo>>() {
             @Override
             public void onChanged(@Nullable List<UserInfo> userInfos) {
                 Timber.d("Receiving database update from LiveData");
                 if (userInfos.size() == 0) {
                     UserInfoActivity.startWith(JournalActivity.this);
+                    return;
                 }
+                userInfo = userInfos.get(0);
             }
         });
     }
@@ -74,10 +79,8 @@ public class JournalActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(JournalActivity.this, ProgramActivity.class);
-                startActivity(intent);
+                ProgramActivity.startWith(JournalActivity.this, userInfo);
             }
         });
     }
-
 }

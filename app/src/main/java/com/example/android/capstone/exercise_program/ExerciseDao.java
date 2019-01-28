@@ -28,5 +28,5 @@ public interface ExerciseDao {
     void deleteExercises(Exercise exercise);
 
     @Query("SELECT * FROM exercise WHERE program = :program")
-    LiveData<List<Exercise>> loadOneExercisebyProgram(int program);
+    LiveData<List<Exercise>> loadExercisebyProgram(int program);
 }
