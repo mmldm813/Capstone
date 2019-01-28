@@ -2,8 +2,11 @@ package com.example.android.capstone;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +26,8 @@ import com.example.android.capstone.database.AppExecutors;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class UserInfoActivity extends AppCompatActivity {
 
@@ -158,7 +163,7 @@ public class UserInfoActivity extends AppCompatActivity {
         boolean isValid = true;
 
         String name = nameTextBox.getText().toString();
-        if (name.isEmpty()){
+        if (name.isEmpty()) {
             nameLayout.setError("Please enter valid name.");
             isValid = false;
         } else {
@@ -188,7 +193,7 @@ public class UserInfoActivity extends AppCompatActivity {
             dobErrorText.setVisibility(View.INVISIBLE);
         }
 
-        if (!maleButton.isChecked() && !femaleButton.isChecked()){
+        if (!maleButton.isChecked() && !femaleButton.isChecked()) {
             genderErrorText.setVisibility(View.VISIBLE);
             isValid = false;
         } else {
@@ -231,7 +236,7 @@ public class UserInfoActivity extends AppCompatActivity {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                if (isUpdate){
+                if (isUpdate) {
                     db.userDao().updateUserInfo(userInfo);
                 } else {
                     db.userDao().insertUserInfo(userInfo);
@@ -247,19 +252,15 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     private void loadUserInfo() {
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+        final LiveData<List<UserInfo>> userInfoList = db.userDao().loadAllUserInfo();
+        userInfoList.observe(this, new Observer<List<UserInfo>>() {
             @Override
-            public void run() {
-                final List<UserInfo> userInfoList = db.userDao().loadAllUserInfo();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (userInfoList.size() > 0) {
-                            userInfo = userInfoList.get(0);
-                            refreshUi();
-                        }
-                    }
-                });
+            public void onChanged(@Nullable List<UserInfo> userInfos) {
+                Timber.d("Receiving database update from LiveData");
+                if (userInfos.size() > 0) {
+                    userInfo = userInfos.get(0);
+                    refreshUi();
+                }
             }
         });
     }
@@ -270,7 +271,7 @@ public class UserInfoActivity extends AppCompatActivity {
         inchesSpinner.setSelection((int) userInfo.getInches());
         weightTextBox.setText(String.valueOf(userInfo.getWeightInLbs()));
         dateText.setText(userInfo.getDateOfBirth().toString());
-        if (userInfo.getGender() == UserInfo.Gender.MALE){
+        if (userInfo.getGender() == UserInfo.Gender.MALE) {
             maleButton.setChecked(true);
         } else {
             femaleButton.setChecked(true);

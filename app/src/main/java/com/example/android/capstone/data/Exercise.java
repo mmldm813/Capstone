@@ -49,4 +49,20 @@ public class Exercise implements Serializable{
         this.name = name;
         this.timeLimitInSeconds = timeLimitInSeconds;
     }
+
+    public int getProgram() {
+        return program;
+    }
+
+    public void setProgram(int program) {
+        this.program = program;
+    }
+
+    public int getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
+    }
 }
