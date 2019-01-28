@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.android.capstone.coach.TtsManager;
 import com.example.android.capstone.database.AppDatabase;
 import com.example.android.capstone.database.ExerciseHelper;
+import com.example.android.capstone.journal.JournalActivity;
 
 
 public class SplashActivity extends AppCompatActivity {

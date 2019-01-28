@@ -1,5 +1,6 @@
-package com.example.android.capstone.database;
+package com.example.android.capstone.exercise_program;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -15,7 +16,7 @@ import java.util.List;
 public interface ExerciseDao {
 
     @Query("SELECT * FROM exercise ORDER BY exerciseId")
-    List<Exercise> loadAllExercises();
+    LiveData<List<Exercise>> loadAllExercises();
 
     @Insert
     long insertExercises(Exercise exercise);
@@ -25,4 +26,7 @@ public interface ExerciseDao {
 
     @Delete
     void deleteExercises(Exercise exercise);
+
+    @Query("SELECT * FROM exercise WHERE program = :program")
+    LiveData<List<Exercise>> loadOneExercisebyProgram(int program);
 }

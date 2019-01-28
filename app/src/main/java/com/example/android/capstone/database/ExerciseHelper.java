@@ -1,47 +1,41 @@
 package com.example.android.capstone.database;
 
-import android.app.Activity;
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
-import android.support.annotation.NonNull;
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.capstone.data.Exercise;
+import com.example.android.capstone.exercise_program.ProgramViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExerciseHelper {
 
-    private Activity activity;
+    private AppCompatActivity activity;
     private AppDatabase db;
     private Runnable onLoadComplete;
 
-    public ExerciseHelper(Activity activity, AppDatabase db, Runnable onLoadComplete) {
+    public ExerciseHelper(AppCompatActivity activity, AppDatabase db, Runnable onLoadComplete) {
         this.activity = activity;
         this.db = db;
         this.onLoadComplete = onLoadComplete;
     }
 
     public void loadDataIfEmpty() {
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+        ProgramViewModel viewModel = ViewModelProviders.of(activity).get(ProgramViewModel.class);
+        viewModel.getExercises().observe(activity, new Observer<List<Exercise>>() {
             @Override
-            public void run() {
-                final List<Exercise> exercises = db.exerciseDao().loadAllExercises();
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (exercises.size() == 0) {
-                            loadData();
-                        } else {
-                            onLoadComplete.run();
-                        }
-                    }
-                });
+            public void onChanged(@Nullable List<Exercise> exercises) {
+                if (exercises.size() == 0) {
+                    loadData();
+                } else {
+                    onLoadComplete.run();
+                }
             }
         });
+
     }
 
     private void loadData() {

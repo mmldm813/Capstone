@@ -2,7 +2,7 @@ package com.example.android.capstone.dagger;
 
 import android.app.Application;
 
-import com.example.android.capstone.JournalActivity;
+import com.example.android.capstone.journal.JournalActivity;
 
 import javax.inject.Singleton;
 

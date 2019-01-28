@@ -1,4 +1,4 @@
-package com.example.android.capstone;
+package com.example.android.capstone.journal;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -11,8 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.android.capstone.R;
 import com.example.android.capstone.data.UserInfo;
 import com.example.android.capstone.database.AppDatabase;
+import com.example.android.capstone.exercise_program.ProgramActivity;
+import com.example.android.capstone.userinfo.UserInfoActivity;
 
 import java.util.List;
 

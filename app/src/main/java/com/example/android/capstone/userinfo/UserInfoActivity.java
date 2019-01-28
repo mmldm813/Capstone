@@ -1,9 +1,9 @@
-package com.example.android.capstone;
+package com.example.android.capstone.userinfo;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.android.capstone.R;
 import com.example.android.capstone.data.UserInfo;
 import com.example.android.capstone.database.AppDatabase;
 import com.example.android.capstone.database.AppExecutors;
@@ -252,11 +253,11 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     private void loadUserInfo() {
-        final LiveData<List<UserInfo>> userInfoList = db.userDao().loadAllUserInfo();
-        userInfoList.observe(this, new Observer<List<UserInfo>>() {
+        UserInfoViewModel viewModel = ViewModelProviders.of(this).get(UserInfoViewModel.class);
+        viewModel.getUserInfo().observe(this, new Observer<List<UserInfo>>() {
             @Override
             public void onChanged(@Nullable List<UserInfo> userInfos) {
-                Timber.d("Receiving database update from LiveData");
+                Timber.d("Updating info from LiveData in ViewModel");
                 if (userInfos.size() > 0) {
                     userInfo = userInfos.get(0);
                     refreshUi();

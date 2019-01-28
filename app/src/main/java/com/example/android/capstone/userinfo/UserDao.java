@@ -1,4 +1,4 @@
-package com.example.android.capstone.database;
+package com.example.android.capstone.userinfo;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;

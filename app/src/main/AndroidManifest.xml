@@ -18,9 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".JournalActivity" />
-        <activity android:name=".UserInfoActivity" />
-        <activity android:name=".ProgramActivity"></activity>
+        <activity android:name=".journal.JournalActivity" />
+        <activity android:name=".userinfo.UserInfoActivity" />
+        <activity android:name=".exercise_program.ProgramActivity"></activity>
     </application>
 
 </manifest>
