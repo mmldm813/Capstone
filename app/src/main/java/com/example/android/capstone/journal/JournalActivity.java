@@ -14,6 +14,9 @@ import com.example.android.capstone.R;
 import com.example.android.capstone.data.UserInfo;
 import com.example.android.capstone.exercise_program.ExerciseProgramActivity;
 import com.example.android.capstone.userinfo.UserInfoActivity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.List;
 
@@ -24,6 +27,7 @@ public class JournalActivity extends AppCompatActivity {
     private JournalViewModel viewModel;
     private UserInfo userInfo;
     private FloatingActionButton fab;
+    private AdView mAdView;
 
     // FIXME - add spinner
 
@@ -39,6 +43,12 @@ public class JournalActivity extends AppCompatActivity {
 
         performFirstTimeUserExperience();
         observeJournalEntries();
+
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     private void observeJournalEntries() {
