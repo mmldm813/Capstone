@@ -1,25 +1,41 @@
 package com.example.android.capstone.exercise;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.TextView;
 
+import com.example.android.capstone.MyApplication;
 import com.example.android.capstone.R;
 import com.example.android.capstone.data.Exercise;
+import com.example.android.capstone.tts.TtsManager;
+
+import javax.inject.Inject;
 
 public class ExerciseFragment extends Fragment {
-    private static final String EXTRA_EXCERCISE = "excercise";
+    private static final String EXTRA_EXERCISE = "exercise";
+    private static final int SPEAK_INTERVAL = 15;
 
-    private Exercise excercise;
+    @Inject
+    TtsManager ttsManager;
+
+    private Exercise exercise;
+    private boolean isStart;
+    private long timeRemaining;
+
+    private Chronometer chronometer;
+    private Button chronometerButton;
 
     public static ExerciseFragment newInstance(Exercise exercise) {
         ExerciseFragment fragment = new ExerciseFragment();
 
         Bundle args = new Bundle();
-        args.putSerializable(EXTRA_EXCERCISE, exercise);
+        args.putSerializable(EXTRA_EXERCISE, exercise);
         fragment.setArguments(args);
 
         return fragment;
@@ -28,18 +44,44 @@ public class ExerciseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        excercise = (Exercise) getArguments().getSerializable(EXTRA_EXCERCISE);
+        exercise = (Exercise) getArguments().getSerializable(EXTRA_EXERCISE);
+        timeRemaining = exercise.getTimeLimitInSeconds();
+
+        inject();
 
         View view = inflater.inflate(R.layout.exercise_fragment_layout, container, false);
         setupViews(view);
-        return  view;
+        return view;
+    }
+
+    private void inject() {
+        ((MyApplication)getContext().getApplicationContext()).getAppComponent().inject(this);
     }
 
     private void setupViews(View view) {
-        TextView excerciseName = view.findViewById(R.id.exercise_name);
-        excerciseName.setText(excercise.getName());
+        TextView exerciseName = view.findViewById(R.id.exercise_name);
+        exerciseName.setText(exercise.getName());
+
         TextView timeLimit = view.findViewById(R.id.time_limit);
-        timeLimit.setText(Long.toString(excercise.getTimeLimitInSeconds()));
+        timeLimit.setText(exercise.getFriendlyTimeLimit());
+
+        chronometer = view.findViewById(R.id.chronometer);
+        chronometer.setCountDown(true);
+        chronometer.setBase(SystemClock.elapsedRealtime() + timeRemaining * 1000);
+        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                onTick();
+            }
+        });
+
+        chronometerButton = view.findViewById(R.id.chronometer_button);
+        chronometerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateChronometer();
+            }
+        });
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,5 +89,65 @@ public class ExerciseFragment extends Fragment {
                 ((ExerciseActivity)getActivity()).startNextFragment();
             }
         });
+    }
+
+    private void onTick() {
+        timeRemaining--;
+        if ((timeRemaining % SPEAK_INTERVAL) == 0) {
+            if (timeRemaining == 0) {
+                ttsManager.speak("time limit reached");
+            }  else {
+                String ending = "remaining";
+                if (timeRemaining < 0) {
+                    ending = "over";
+                }
+                ttsManager.speak(getTimeSpeech(timeRemaining) + " " + ending);
+            }
+        }
+    }
+
+    private void updateChronometer(){
+        if (isStart) {
+            chronometer.stop();
+            isStart = false;
+            chronometerButton.setText("Start");
+        } else {
+            chronometer.setBase(SystemClock.elapsedRealtime() + timeRemaining * 1000);
+            chronometer.start();
+            isStart = true;
+            chronometerButton.setText("Stop");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        speakExcerciseName();
+        speakTimeLimit();
+    }
+
+    private void speakExcerciseName() {
+        ttsManager.speak(exercise.getName());
+    }
+
+    private void speakTimeLimit() {
+        ttsManager.speak("time limit " + getTimeSpeech(exercise.getTimeLimitInSeconds()));
+    }
+
+    private String getTimeSpeech(long time) {
+        String timeSpeech;
+
+        if (time < 0) {
+            time *= -1;
+        }
+        long min = time / 60;
+        long sec = time % 60;
+        if (min > 0) {
+            timeSpeech = "" + min + " minutes " + sec + " seconds";
+        } else {
+            timeSpeech = "" + sec + " seconds";
+        }
+        return timeSpeech;
     }
 }

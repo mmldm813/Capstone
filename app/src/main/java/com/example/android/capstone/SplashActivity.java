@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.android.capstone.coach.TtsManager;
+import com.example.android.capstone.tts.TtsManager;
 import com.example.android.capstone.database.AppDatabase;
 import com.example.android.capstone.database.ExerciseHelper;
 import com.example.android.capstone.journal.JournalActivity;

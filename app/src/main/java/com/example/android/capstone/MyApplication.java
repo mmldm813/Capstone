@@ -2,7 +2,7 @@ package com.example.android.capstone;
 
 import android.app.Application;
 
-import com.example.android.capstone.coach.TtsManager;
+import com.example.android.capstone.tts.TtsManager;
 import com.example.android.capstone.dagger.AppComponent;
 import com.example.android.capstone.dagger.AppModule;
 import com.example.android.capstone.dagger.DaggerAppComponent;

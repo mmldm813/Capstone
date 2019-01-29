@@ -2,7 +2,7 @@ package com.example.android.capstone.dagger;
 
 import android.app.Application;
 
-import com.example.android.capstone.journal.JournalActivity;
+import com.example.android.capstone.exercise.ExerciseFragment;
 
 import javax.inject.Singleton;
 
@@ -13,5 +13,5 @@ import dagger.Component;
 public interface AppComponent {
         Application getApplication();
 
-        void inject(JournalActivity journalActivity);
+        void inject(ExerciseFragment exerciseFragment);
 }

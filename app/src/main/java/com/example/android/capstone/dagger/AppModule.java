@@ -2,7 +2,7 @@ package com.example.android.capstone.dagger;
 
 import android.app.Application;
 
-import com.example.android.capstone.coach.TtsManager;
+import com.example.android.capstone.tts.TtsManager;
 
 import javax.inject.Singleton;
 

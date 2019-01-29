@@ -69,10 +69,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
             if (exercise != null) {
                 order.setText(Integer.toString(exercise.getOrderNumber()));
                 exerciseName.setText(exercise.getName());
-                exerciseTime.setText(Long.toString(exercise.getTimeLimitInSeconds()));
+                exerciseTime.setText(exercise.getFriendlyTimeLimit());
             }
         }
     }
-
 
 }

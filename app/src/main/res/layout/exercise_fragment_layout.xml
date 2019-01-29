@@ -19,6 +19,23 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         tools:text="Time" />
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#ad1457"
+        android:background="#b2dfdb"></Chronometer>
+
+    <Button
+        android:id="@+id/chronometer_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:text="Start" />
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -39,6 +39,10 @@ public class Exercise implements Serializable{
         this.timeLimitInSeconds = timeLimitInSeconds;
     }
 
+    public String getFriendlyTimeLimit() {
+        return String.format("%02d:%02d", timeLimitInSeconds / 60, timeLimitInSeconds % 60);
+    }
+
     public Exercise(int program, int orderNumber, String name, long timeLimitInSeconds) {
         this.program = program;
         this.orderNumber = orderNumber;
