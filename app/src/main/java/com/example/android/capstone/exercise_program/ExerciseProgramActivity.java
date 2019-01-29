@@ -10,23 +10,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.android.capstone.R;
 import com.example.android.capstone.data.Exercise;
 import com.example.android.capstone.data.UserInfo;
 import com.example.android.capstone.database.AppDatabase;
+import com.example.android.capstone.exercise.ExerciseActivity;
 
 import java.util.List;
 
-public class ProgramActivity extends AppCompatActivity {
+public class ExerciseProgramActivity extends AppCompatActivity {
     private static final String EXTRA_USER_INFO = "userinfo";
 
     private AppDatabase db;
     private UserInfo userInfo;
     private ExerciseAdapter adapter;
+    private List<Exercise> exercises;
+    private Button startButton;
 
     public static void startWith(Activity activity, UserInfo userInfo) {
-        Intent intent = new Intent(activity, ProgramActivity.class);
+        Intent intent = new Intent(activity, ExerciseProgramActivity.class);
         intent.putExtra(EXTRA_USER_INFO, userInfo);
         activity.startActivity(intent);
     }
@@ -40,11 +45,21 @@ public class ProgramActivity extends AppCompatActivity {
         userInfo = (UserInfo) getIntent().getSerializableExtra(EXTRA_USER_INFO);
         adapter = new ExerciseAdapter(this);
 
-        ProgramViewModel viewModel = ViewModelProviders.of(this,
-                new ProgramViewModel.Factory(this.getApplication(), userInfo)).get(ProgramViewModel.class);
+        startButton = findViewById(R.id.start_button);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExerciseActivity.startWith(ExerciseProgramActivity.this, exercises);
+                finish();
+            }
+        });
+
+        ExerciseProgramViewModel viewModel = ViewModelProviders.of(this,
+                new ExerciseProgramViewModel.Factory(this.getApplication(), userInfo)).get(ExerciseProgramViewModel.class);
         viewModel.getExercises().observe(this, new Observer<List<Exercise>>() {
             @Override
             public void onChanged(@Nullable List<Exercise> exercises) {
+                ExerciseProgramActivity.this.exercises = exercises;
                 adapter.setData(exercises);
             }
         });

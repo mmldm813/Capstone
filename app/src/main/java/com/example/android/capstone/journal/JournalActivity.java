@@ -13,7 +13,7 @@ import android.view.View;
 import com.example.android.capstone.R;
 import com.example.android.capstone.data.UserInfo;
 import com.example.android.capstone.database.AppDatabase;
-import com.example.android.capstone.exercise_program.ProgramActivity;
+import com.example.android.capstone.exercise_program.ExerciseProgramActivity;
 import com.example.android.capstone.userinfo.UserInfoActivity;
 import com.example.android.capstone.userinfo.UserInfoViewModel;
 
@@ -79,7 +79,7 @@ public class JournalActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProgramActivity.startWith(JournalActivity.this, userInfo);
+                ExerciseProgramActivity.startWith(JournalActivity.this, userInfo);
             }
         });
     }

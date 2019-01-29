@@ -20,7 +20,14 @@
         </activity>
         <activity android:name=".journal.JournalActivity" />
         <activity android:name=".userinfo.UserInfoActivity" />
-        <activity android:name=".exercise_program.ProgramActivity"></activity>
+        <activity
+            android:name=".exercise_program.ExerciseProgramActivity"
+            android:parentActivityName=".journal.JournalActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".journal.JournalActivity" />
+        </activity>
+        <activity android:name=".exercise.ExerciseActivity"></activity>
     </application>
 
 </manifest>

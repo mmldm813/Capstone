@@ -15,7 +15,7 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class ProgramViewModel extends AndroidViewModel {
+public class ExerciseProgramViewModel extends AndroidViewModel {
 
     private LiveData<List<Exercise>> exercises;
 
@@ -31,11 +31,11 @@ public class ProgramViewModel extends AndroidViewModel {
 
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
-            return (T) new ProgramViewModel(application, userInfo);
+            return (T) new ExerciseProgramViewModel(application, userInfo);
         }
     }
 
-    public ProgramViewModel(@NonNull Application application, UserInfo userInfo) {
+    public ExerciseProgramViewModel(@NonNull Application application, UserInfo userInfo) {
         super(application);
         AppDatabase db = AppDatabase.getInstance(this.getApplication());
         Timber.d("Actively retrieving the info from the db.");

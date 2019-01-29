@@ -13,8 +13,6 @@ import java.util.List;
 import timber.log.Timber;
 
 public class  UserInfoViewModel extends AndroidViewModel{
-
-
     private LiveData<List<UserInfo>> userInfo;
 
     public UserInfoViewModel(@NonNull Application application) {
