@@ -12,10 +12,8 @@ import android.view.View;
 
 import com.example.android.capstone.R;
 import com.example.android.capstone.data.UserInfo;
-import com.example.android.capstone.database.AppDatabase;
 import com.example.android.capstone.exercise_program.ExerciseProgramActivity;
 import com.example.android.capstone.userinfo.UserInfoActivity;
-import com.example.android.capstone.userinfo.UserInfoViewModel;
 
 import java.util.List;
 
@@ -23,7 +21,7 @@ import timber.log.Timber;
 
 public class JournalActivity extends AppCompatActivity {
 
-    private AppDatabase db;
+    private JournalViewModel viewModel;
     private UserInfo userInfo;
     private FloatingActionButton fab;
 
@@ -34,15 +32,22 @@ public class JournalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.journal_layout);
 
-        db = AppDatabase.getInstance(getApplicationContext());
+        viewModel = ViewModelProviders.of(this).get(JournalViewModel.class);
+
         fab = findViewById(R.id.fab_button);
         fabButtonNavigation();
+
+        performFirstTimeUserExperience();
+        observeJournalEntries();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        performFirstTimeUserExperience();
+    private void observeJournalEntries() {
+        viewModel.getJournalEntries().observe(this, new Observer<List<JournalDao.JournalExercise>>() {
+            @Override
+            public void onChanged(@Nullable List<JournalDao.JournalExercise> journalEntries) {
+                Timber.d("xxx");
+            }
+        });
     }
 
     @Override
@@ -61,8 +66,7 @@ public class JournalActivity extends AppCompatActivity {
     }
 
     private void performFirstTimeUserExperience() {
-        UserInfoViewModel viewModel = ViewModelProviders.of(this).get(UserInfoViewModel.class);
-        viewModel.getUserInfo().observe(this, new Observer<List<UserInfo>>() {
+        viewModel.getUserInfos().observe(this, new Observer<List<UserInfo>>() {
             @Override
             public void onChanged(@Nullable List<UserInfo> userInfos) {
                 Timber.d("Receiving database update from LiveData");

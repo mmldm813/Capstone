@@ -10,13 +10,9 @@ public class Exercise implements Serializable{
 
     @PrimaryKey(autoGenerate = true)
     private int exerciseId;
-
     private int program;
-
     private int orderNumber;
-
     private String name;
-
     private long timeLimitInSeconds;
 
     public int getExerciseId() {

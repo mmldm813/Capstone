@@ -7,18 +7,20 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
 import com.example.android.capstone.data.Exercise;
+import com.example.android.capstone.data.Journal;
 import com.example.android.capstone.data.UserInfo;
 import com.example.android.capstone.exercise_program.ExerciseDao;
+import com.example.android.capstone.journal.JournalDao;
 import com.example.android.capstone.userinfo.UserDao;
 
 import timber.log.Timber;
 
-@Database(entities = {UserInfo.class, Exercise.class}, version = 1, exportSchema = false)
+@Database(entities = {UserInfo.class, Exercise.class, Journal.class}, version = 1, exportSchema = false)
 @TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final Object LOCK = new Object();
-    private static final String DATABASE_NAME = "collectiveappdata";
+    private static final String DATABASE_NAME = "capstone.db";
     private static AppDatabase instance;
 
     public static AppDatabase getInstance(Context context) {
@@ -37,4 +39,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
 
     public abstract ExerciseDao exerciseDao();
+
+    public abstract JournalDao journalDao();
 }
