@@ -1,15 +1,15 @@
 package com.example.android.capstone;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.android.capstone.tts.TtsManager;
 import com.example.android.capstone.database.AppDatabase;
 import com.example.android.capstone.database.ExerciseHelper;
-import com.example.android.capstone.journal.JournalActivity;
+import com.example.android.capstone.tts.TtsManager;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -48,7 +48,10 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void startNextActivity() {
-        startActivity(new Intent(SplashActivity.this, JournalActivity.class));
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName(getPackageName(),
+                "com.example.android.capstone.journal.JournalActivity"));
+        startActivity(intent);
         finish();
     }
 

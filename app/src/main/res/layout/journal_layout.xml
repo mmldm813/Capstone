@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
-    tools:context=".journal.JournalActivity">
-
+    tools:context=".journal.JournalActivityBase">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
@@ -16,20 +15,7 @@
         app:contentInsetStart="72dp"
         app:layout_collapseMode="pin" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            ads:adSize="BANNER"
-            ads:adUnitId="@string/banner_ad_unit_id" />
-
-    </RelativeLayout>
+    <include layout="@layout/ad_layout"/>
 
     <TextView
         android:id="@+id/empty_view"
@@ -40,6 +26,7 @@
         android:layout_marginRight="80dp"
         android:text="Click on button to add exercise"
         android:visibility="gone" />
+
     <!--<LinearLayout-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="wrap_content"-->

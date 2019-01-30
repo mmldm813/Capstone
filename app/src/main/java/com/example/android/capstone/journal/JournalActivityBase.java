@@ -14,20 +14,16 @@ import com.example.android.capstone.R;
 import com.example.android.capstone.data.UserInfo;
 import com.example.android.capstone.exercise_program.ExerciseProgramActivity;
 import com.example.android.capstone.userinfo.UserInfoActivity;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 
 import java.util.List;
 
 import timber.log.Timber;
 
-public class JournalActivity extends AppCompatActivity {
+public class JournalActivityBase extends AppCompatActivity {
 
     private JournalViewModel viewModel;
     private UserInfo userInfo;
     private FloatingActionButton fab;
-    private AdView mAdView;
 
     // FIXME - add spinner
 
@@ -43,12 +39,6 @@ public class JournalActivity extends AppCompatActivity {
 
         performFirstTimeUserExperience();
         observeJournalEntries();
-
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
-
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
     }
 
     private void observeJournalEntries() {
@@ -81,7 +71,7 @@ public class JournalActivity extends AppCompatActivity {
             public void onChanged(@Nullable List<UserInfo> userInfos) {
                 Timber.d("Receiving database update from LiveData");
                 if (userInfos.size() == 0) {
-                    UserInfoActivity.startWith(JournalActivity.this);
+                    UserInfoActivity.startWith(JournalActivityBase.this);
                     return;
                 }
                 userInfo = userInfos.get(0);
@@ -93,7 +83,7 @@ public class JournalActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ExerciseProgramActivity.startWith(JournalActivity.this, userInfo);
+                ExerciseProgramActivity.startWith(JournalActivityBase.this, userInfo);
             }
         });
     }

@@ -1,7 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android.capstone">
+package="com.example.android.capstone">
 
-    <application>
-        <activity android:name="com.example.android.capstone.JournalActivity"></activity>
-    </application>
+<application>
+    <activity android:name=".journal.JournalActivity" />
+    <activity android:name=".userinfo.UserInfoActivity" />
+    <activity
+        android:name=".exercise_program.ExerciseProgramActivity"
+        android:parentActivityName=".journal.JournalActivity">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".journal.JournalActivity" />
+    </activity>
+</application>
 </manifest>

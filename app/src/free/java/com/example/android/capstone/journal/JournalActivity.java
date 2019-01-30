@@ -1,8 +1,8 @@
-package com.example.android.capstone;
+package com.example.android.capstone.journal;
 
 import android.os.Bundle;
 
-import com.example.android.capstone.journal.JournalActivityBase;
+import com.example.android.capstone.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
