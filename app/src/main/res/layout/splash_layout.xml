@@ -18,7 +18,8 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="80dp"
-            android:src="@drawable/police_officer"/>
+            android:src="@drawable/police_officer"
+            android:contentDescription="Logo"/>
 
         <TextView
             android:layout_width="wrap_content"
