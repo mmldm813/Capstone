@@ -14,7 +14,8 @@
         android:layout_margin="8dp"
         android:gravity="center_horizontal"
         android:text="User Information"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:contentDescription="User Information"/>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/nameTextInputLayout"
@@ -30,7 +31,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Name"
-            app:hintEnabled="true" />
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            app:hintEnabled="true"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -103,7 +106,8 @@
             android:layout_height="wrap_content"
             android:hint="Weight"
             app:hintEnabled="true"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:imeOptions="actionNext"/>
 
     </android.support.design.widget.TextInputLayout>
 
