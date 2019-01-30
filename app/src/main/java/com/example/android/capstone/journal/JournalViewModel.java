@@ -7,29 +7,28 @@ import android.support.annotation.NonNull;
 
 import com.example.android.capstone.data.UserInfo;
 import com.example.android.capstone.database.AppDatabase;
-import com.example.android.capstone.database.JournalDao;
 
+import java.sql.Date;
 import java.util.List;
 
 public class JournalViewModel extends AndroidViewModel {
 
     private LiveData<List<UserInfo>> userInfos;
-    private LiveData<List<JournalDao.JournalExercise>> journalEntries;
+    private LiveData<List<Date>> journalEntryDates;
 
     public JournalViewModel(@NonNull Application application) {
         super(application);
 
-        // FIXME - attempt
         AppDatabase db = AppDatabase.getInstance(this.getApplication());
         userInfos = db.userDao().loadAllUserInfo();
-        journalEntries = db.journalDao().loadJournalEntryAndExerciseByAttempt(1);
-    }
-
-    public LiveData<List<JournalDao.JournalExercise>> getJournalEntries() {
-        return journalEntries;
+        journalEntryDates = db.journalDao().loadJournalDates();
     }
 
     public LiveData<List<UserInfo>> getUserInfos() {
         return userInfos;
+    }
+
+    public LiveData<List<Date>> getJournalEntryDates() {
+        return journalEntryDates;
     }
 }

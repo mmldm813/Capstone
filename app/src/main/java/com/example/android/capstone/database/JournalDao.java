@@ -28,8 +28,11 @@ public interface JournalDao {
     @Delete
     void deleteJournalEntry(Journal journal);
 
-    @Query("SELECT * from journal INNER JOIN Exercise ON journal.exerciseId = exercise.exerciseId WHERE journal.attempt = :attempt")
-    LiveData<List<JournalExercise>> loadJournalEntryAndExerciseByAttempt(int attempt);
+    @Query("SELECT distinct date from journal")
+    LiveData<List<Date>> loadJournalDates();
+
+    @Query("SELECT * from journal INNER JOIN Exercise ON journal.exerciseId = exercise.exerciseId WHERE journal.date = :date")
+    List<JournalExercise> loadJournalEntryAndExerciseByDate(Date date);
 
     class JournalExercise {
         public Date date;

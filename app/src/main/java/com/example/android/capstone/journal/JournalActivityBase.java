@@ -45,17 +45,15 @@ public class JournalActivityBase extends AppCompatActivity {
         performFirstTimeUserExperience();
         observeJournalEntries();
 
-        cardAdapter = new CardAdapter();
+        cardAdapter = new CardAdapter(this);
         setupJournalCards();
     }
 
-    // FIXME
     private void observeJournalEntries() {
-        viewModel.getJournalEntries().observe(this, new Observer<List<JournalDao.JournalExercise>>() {
+        viewModel.getJournalEntryDates().observe(this, new Observer<List<java.sql.Date>>() {
             @Override
-            public void onChanged(@Nullable List<JournalDao.JournalExercise> journalEntries) {
-                journalExercises = journalEntries;
-                cardAdapter.setData(journalExercises);
+            public void onChanged(@Nullable final List<java.sql.Date> dates) {
+                cardAdapter.setData(dates);
             }
         });
     }
