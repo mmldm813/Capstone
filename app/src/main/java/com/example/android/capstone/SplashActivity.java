@@ -45,6 +45,7 @@ public class SplashActivity extends AppCompatActivity {
                 exerciseHelper.loadDataIfEmpty();
             }
         });
+
     }
 
     private void startNextActivity() {
