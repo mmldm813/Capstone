@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +27,8 @@ public class JournalActivityBase extends AppCompatActivity {
     private JournalViewModel viewModel;
     private UserInfo userInfo;
     private FloatingActionButton fab;
+    private CardAdapter cardAdapter;
+    private List<JournalDao.JournalExercise> journalExercises;
 
     // FIXME - add spinner
 
@@ -40,6 +44,9 @@ public class JournalActivityBase extends AppCompatActivity {
 
         performFirstTimeUserExperience();
         observeJournalEntries();
+
+        cardAdapter = new CardAdapter();
+        setupJournalCards();
     }
 
     // FIXME
@@ -47,7 +54,8 @@ public class JournalActivityBase extends AppCompatActivity {
         viewModel.getJournalEntries().observe(this, new Observer<List<JournalDao.JournalExercise>>() {
             @Override
             public void onChanged(@Nullable List<JournalDao.JournalExercise> journalEntries) {
-                Timber.d("xxx");
+                journalExercises = journalEntries;
+                cardAdapter.setData(journalExercises);
             }
         });
     }
@@ -79,6 +87,15 @@ public class JournalActivityBase extends AppCompatActivity {
                 userInfo = userInfos.get(0);
             }
         });
+    }
+
+    private void setupJournalCards() {
+        RecyclerView recyclerView = findViewById(R.id.recycler);
+        LinearLayoutManager list = new LinearLayoutManager(this);
+        list.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(list);
+        recyclerView.setAdapter(cardAdapter);
     }
 
     private void fabButtonNavigation() {
