@@ -94,8 +94,12 @@ public class TtsManager {
     }
 
     public void speak(String text) {
+        speak(text, TextToSpeech.QUEUE_ADD);
+    }
+
+    public void speak(String text, int queueMode) {
         if (isInitalized) {
-            textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
+            textToSpeech.speak(text, queueMode, null);
         }
     }
 }

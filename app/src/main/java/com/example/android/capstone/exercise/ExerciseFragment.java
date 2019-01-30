@@ -2,6 +2,7 @@ package com.example.android.capstone.exercise;
 
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,7 +87,8 @@ public class ExerciseFragment extends Fragment {
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ExerciseActivity)getActivity()).startNextFragment();
+                chronometer.stop();
+                ((ExerciseActivity)getActivity()).startNextFragment(timeRemaining);
             }
         });
     }
@@ -128,7 +130,7 @@ public class ExerciseFragment extends Fragment {
     }
 
     private void speakExcerciseName() {
-        ttsManager.speak(exercise.getName());
+        ttsManager.speak(exercise.getName(), TextToSpeech.QUEUE_FLUSH);
     }
 
     private void speakTimeLimit() {

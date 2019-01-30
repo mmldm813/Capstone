@@ -10,7 +10,6 @@ import com.example.android.capstone.data.Exercise;
 import com.example.android.capstone.data.Journal;
 import com.example.android.capstone.data.UserInfo;
 import com.example.android.capstone.exercise_program.ExerciseDao;
-import com.example.android.capstone.journal.JournalDao;
 import com.example.android.capstone.userinfo.UserDao;
 
 import timber.log.Timber;

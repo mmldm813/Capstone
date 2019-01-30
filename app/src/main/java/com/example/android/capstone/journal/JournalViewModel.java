@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 
 import com.example.android.capstone.data.UserInfo;
 import com.example.android.capstone.database.AppDatabase;
+import com.example.android.capstone.database.JournalDao;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class JournalViewModel extends AndroidViewModel {
     public JournalViewModel(@NonNull Application application) {
         super(application);
 
+        // FIXME - attempt
         AppDatabase db = AppDatabase.getInstance(this.getApplication());
         userInfos = db.userDao().loadAllUserInfo();
         journalEntries = db.journalDao().loadJournalEntryAndExerciseByAttempt(1);

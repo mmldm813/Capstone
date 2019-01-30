@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.example.android.capstone.R;
 import com.example.android.capstone.data.UserInfo;
+import com.example.android.capstone.database.JournalDao;
 import com.example.android.capstone.exercise_program.ExerciseProgramActivity;
 import com.example.android.capstone.userinfo.UserInfoActivity;
 
@@ -41,6 +42,7 @@ public class JournalActivityBase extends AppCompatActivity {
         observeJournalEntries();
     }
 
+    // FIXME
     private void observeJournalEntries() {
         viewModel.getJournalEntries().observe(this, new Observer<List<JournalDao.JournalExercise>>() {
             @Override
