@@ -4,6 +4,14 @@ apply plugin: 'io.fabric'
 
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'key0'
+            keyPassword 'password'
+            storeFile file('../keystore/keystore')
+            storePassword 'password'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.android.capstone"
@@ -15,6 +23,7 @@ android {
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
