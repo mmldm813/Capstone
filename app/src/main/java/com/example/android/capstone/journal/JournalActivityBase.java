@@ -41,7 +41,6 @@ public class JournalActivityBase extends AppCompatActivity {
         fab = findViewById(R.id.fab_button);
         fabButtonNavigation();
 
-        performFirstTimeUserExperience();
         observeJournalEntries();
 
         cardAdapter = new CardAdapter(this);
@@ -70,6 +69,12 @@ public class JournalActivityBase extends AppCompatActivity {
                 UserInfoActivity.startWith(this);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        performFirstTimeUserExperience();
     }
 
     private void performFirstTimeUserExperience() {
@@ -103,4 +108,6 @@ public class JournalActivityBase extends AppCompatActivity {
             }
         });
     }
+
+
 }
