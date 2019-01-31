@@ -3,6 +3,8 @@ package com.example.android.capstone.exercise;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,10 @@ import javax.inject.Inject;
 
 public class ExerciseFragment extends Fragment {
     private static final String EXTRA_EXERCISE = "exercise";
+
+    private static final String EXTRA_IS_START = "isStart";
+    private static final String EXTRA_TIME_REMAINING = "timeRemaining";
+
     private static final int SPEAK_INTERVAL = 15;
 
     @Inject
@@ -52,7 +58,29 @@ public class ExerciseFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.exercise_fragment_layout, container, false);
         setupViews(view);
+
+        if (savedInstanceState == null) {
+            speakExcerciseName();
+            speakTimeLimit();
+
+        } else {
+            isStart = savedInstanceState.getBoolean(EXTRA_IS_START);
+            timeRemaining = savedInstanceState.getLong(EXTRA_TIME_REMAINING);
+            updateChronometerButton();
+            if (isStart) {
+                chronometer.setBase(SystemClock.elapsedRealtime() + timeRemaining * 1000);
+                chronometer.start();
+            }
+        }
+
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putBoolean(EXTRA_IS_START, isStart);
+        outState.putLong(EXTRA_TIME_REMAINING, timeRemaining);
+        super.onSaveInstanceState(outState);
     }
 
     private void inject() {
@@ -67,8 +95,9 @@ public class ExerciseFragment extends Fragment {
         timeLimit.setText(exercise.getFriendlyTimeLimit());
 
         chronometer = view.findViewById(R.id.chronometer);
-        chronometer.setCountDown(true);
         chronometer.setBase(SystemClock.elapsedRealtime() + timeRemaining * 1000);
+
+        chronometer.setCountDown(true);
         chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
@@ -80,9 +109,10 @@ public class ExerciseFragment extends Fragment {
         chronometerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateChronometer();
+                toggleChronometer();
             }
         });
+        updateChronometerButton();
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,25 +138,23 @@ public class ExerciseFragment extends Fragment {
         }
     }
 
-    private void updateChronometer(){
+    private void updateChronometerButton(){
         if (isStart) {
-            chronometer.stop();
-            isStart = false;
-            chronometerButton.setText(R.string.start);
-        } else {
-            chronometer.setBase(SystemClock.elapsedRealtime() + timeRemaining * 1000);
-            chronometer.start();
-            isStart = true;
             chronometerButton.setText(R.string.stop);
+        } else {
+            chronometerButton.setText(R.string.start);
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        speakExcerciseName();
-        speakTimeLimit();
+    private void toggleChronometer(){
+        if (isStart) {
+            chronometer.stop();
+            isStart = false;
+        } else {
+            chronometer.start();
+            isStart = true;
+        }
+        updateChronometerButton();
     }
 
     private void speakExcerciseName() {

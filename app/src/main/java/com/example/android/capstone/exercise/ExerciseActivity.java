@@ -16,13 +16,16 @@ import com.example.android.capstone.database.JournalDao;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExerciseActivity extends AppCompatActivity {
     private static final String EXTRA_EXERCISES = "exercises";
+    private static final String EXTRA_DURATIONS = "durations";
+    private static final String EXTRA_INDEX = "index";
 
     private List<Exercise> exercises;
-    private Long[] durations;
+    private ArrayList<Long> durations;
     private int index;
 
     public static void startWith(Activity activity, List<Exercise> exercises) {
@@ -31,15 +34,28 @@ public class ExerciseActivity extends AppCompatActivity {
         activity.startActivity(intent);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.exercise_layout);
 
         exercises = (List<Exercise>) getIntent().getSerializableExtra(EXTRA_EXERCISES);
-        durations = new Long[exercises.size()];
+        if (savedInstanceState == null) {
+            durations = new ArrayList(exercises.size());
 
-        startFirstFragment();
+            startFirstFragment();
+        } else {
+            durations = (ArrayList<Long>) savedInstanceState.getSerializable(EXTRA_DURATIONS);
+            index = savedInstanceState.getInt(EXTRA_INDEX);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(EXTRA_DURATIONS, durations);
+        outState.putInt(EXTRA_INDEX, index);
+        super.onSaveInstanceState(outState);
     }
 
     private void startFirstFragment() {
@@ -51,7 +67,7 @@ public class ExerciseActivity extends AppCompatActivity {
 
     public void startNextFragment(long timeRemaining) {
         long duration = exercises.get(index).getTimeLimitInSeconds() - timeRemaining;
-        durations[index] = duration;
+        durations.add(index, duration);
 
         index++;
         if (index == exercises.size()) {
@@ -76,7 +92,7 @@ public class ExerciseActivity extends AppCompatActivity {
                 Date today = new Date(System.currentTimeMillis());
                 for(int i = 0; i < exercises.size(); i++) {
                     Exercise exercise = exercises.get(i);
-                    Journal journal = new Journal(today, 1, exercise.getExerciseId(), durations[i]);
+                    Journal journal = new Journal(today, 1, exercise.getExerciseId(), durations.get(i));
                     journalDao.insertJournalEntry(journal);
                 }
                 runOnUiThread(new Runnable() {
