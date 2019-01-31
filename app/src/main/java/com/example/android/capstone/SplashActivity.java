@@ -1,11 +1,16 @@
 package com.example.android.capstone;
 
+import android.app.ActivityOptions;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.view.Window;
 
 import com.example.android.capstone.database.AppDatabase;
 import com.example.android.capstone.database.ExerciseHelper;
@@ -53,6 +58,7 @@ public class SplashActivity extends AppCompatActivity {
         intent.setComponent(new ComponentName(getPackageName(),
                 "com.example.android.capstone.journal.JournalActivity"));
         startActivity(intent);
+        overridePendingTransition(android.R.anim.slide_out_right, android.R.anim.slide_out_right);
         finish();
     }
 
