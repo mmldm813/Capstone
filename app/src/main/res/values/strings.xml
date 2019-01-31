@@ -1,6 +1,46 @@
 <resources>
     <string name="app_name">Capstone</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="one_half_mile_run">1.5 Mile Run</string>
+    <string name="five_min_rest">5 Minute Rest</string>
+    <string name="thirteen_pushups">13 Push Ups</string>
+    <string name="thirty_situps">30 Sit Ups</string>
+    <string name="three_hund_meter_run">300 meter Run</string>
+    <string name="thirtyfive_situps">35 Sit Ups</string>
+    <string name="twentysix_pushups">26 Push Ups</string>
+    <string name="time_limit_reached">time limit reached</string>
+    <string name="remaining">remaining</string>
+    <string name="over">over</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="time_limit">time limit</string>
+    <string name="minutes">minutes</string>
+    <string name="seconds">seconds</string>
+    <string name="not_attempted">not attempted</string>
+    <string name="error_tts">Error with TTS, coach unavailable</string>
+    <string name="install_english_instructions">Please install English/US language</string>
+    <string name="enter_valid_name">Please enter valid name.</string>
+    <string name="enter_correct_weight">Please enter weight between 80 and 300 lbs.</string>
+    <string name="update">Update</string>
+    <string name="next">Next</string>
+    <string name="click_button_add_exercise">Click on button to add exercise</string>
+    <string name="police_tryouts">Police Tryouts</string>
+    <string name="user_information">User Information</string>
+    <string name="name">Name</string>
+    <string name="height">Height</string>
+    <string name="ft">Ft.</string>
+    <string name="in">In.</string>
+    <string name="please_enter_height_greater_than_4_feet">Please enter height greater than 4 feet.</string>
+    <string name="weight">Weight</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="please_enter_valid_date">Please enter valid date.</string>
+    <string name="male">MALE</string>
+    <string name="female">FEMALE</string>
+    <string name="logo">Logo</string>
+    <string name="start_new_exercise_program">Start new exercise program</string>
+    <string name="please_choose_a_gender">Please choose a gender.</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="save">save</string>
 
     <string-array name="feet_array">
         <item>0</item>

@@ -165,7 +165,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
         String name = nameTextBox.getText().toString();
         if (name.isEmpty()) {
-            nameLayout.setError("Please enter valid name.");
+            nameLayout.setError(getString(R.string.enter_valid_name));
             isValid = false;
         } else {
             nameLayout.setError(null);
@@ -180,7 +180,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
         String weight = weightTextBox.getText().toString();
         if (weight.isEmpty() || Integer.parseInt(weight) < 80 || Integer.parseInt(weight) > 300) {
-            weightLayout.setError("Please enter weight between 80 and 300 lbs.");
+            weightLayout.setError(getString(R.string.enter_correct_weight));
             isValid = false;
         } else {
             weightLayout.setError(null);
@@ -277,6 +277,6 @@ public class UserInfoActivity extends AppCompatActivity {
         } else {
             femaleButton.setChecked(true);
         }
-        saveButton.setText("Update");
+        saveButton.setText(R.string.update);
     }
 }

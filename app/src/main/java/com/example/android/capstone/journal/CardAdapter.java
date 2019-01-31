@@ -89,7 +89,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
                                         .setText(journalExercise.name);
                                 String duration;
                                 if (journalExercise.totalDuration == 0) {
-                                    duration = "not attempted";
+                                    duration = activity.getString(R.string.not_attempted);
                                 } else {
                                     duration = String.format("%02d:%02d",
                                             journalExercise.totalDuration / 60,

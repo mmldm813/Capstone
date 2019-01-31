@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.widget.Toast;
 
+import com.example.android.capstone.R;
+
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -61,7 +63,7 @@ public class TtsManager {
                             isInitalized = true;
                             setLanguage();
                         } else {
-                            Toast.makeText(activity, "Error with TTS, coach unavailable",
+                            Toast.makeText(activity, R.string.error_tts,
                                     Toast.LENGTH_LONG).show();
                             onInitComplete(false);
                         }
@@ -80,7 +82,7 @@ public class TtsManager {
     }
 
     private void installLanguage() {
-        Toast.makeText(activity, "Please install English/US language",
+        Toast.makeText(activity, R.string.install_english_instructions,
                 Toast.LENGTH_LONG).show();
 
         Intent installIntent = new Intent();

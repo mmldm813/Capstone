@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:gravity="center_horizontal"
-        android:text="User Information"
+        android:text="@string/user_information"
         android:textSize="20sp"/>
 
     <android.support.design.widget.TextInputLayout
@@ -29,7 +29,7 @@
             android:id="@+id/name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name"
+            android:hint="@string/name"
             android:imeOptions="actionNext"
             android:inputType="text"
             app:hintEnabled="true"/>
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="Height"
+        android:text="@string/height"
         android:textSize="16sp" />
 
     <LinearLayout
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Ft." />
+            android:text="@string/ft" />
 
         <Spinner
             android:id="@+id/feet"
@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="In." />
+            android:text="@string/in" />
 
         <Spinner
             android:id="@+id/inches"
@@ -85,7 +85,7 @@
         android:id="@+id/height_error_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Please enter height greater than 4 feet."
+        android:text="@string/please_enter_height_greater_than_4_feet"
         android:textSize="12dp"
         android:textColor="@android:color/holo_red_light"
         android:layout_marginLeft="8dp"
@@ -103,7 +103,7 @@
             android:id="@+id/weight_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Weight"
+            android:hint="@string/weight"
             app:hintEnabled="true"
             android:inputType="number"
             android:imeOptions="actionNext"/>
@@ -115,7 +115,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="Date of Birth"
+        android:text="@string/date_of_birth"
         android:textSize="16sp"/>
 
     <View
@@ -129,7 +129,7 @@
         android:id="@+id/dob_error_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Please enter valid date."
+        android:text="@string/please_enter_valid_date"
         android:textSize="12dp"
         android:textColor="@android:color/holo_red_light"
         android:layout_marginLeft="8dp"
@@ -147,13 +147,13 @@
             android:id="@+id/male_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MALE" />
+            android:text="@string/male" />
 
         <RadioButton
             android:id="@+id/female_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FEMALE" />
+            android:text="@string/female" />
 
     </RadioGroup>
 
@@ -161,7 +161,7 @@
         android:id="@+id/gender_error_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Please choose a gender."
+        android:text="@string/please_choose_a_gender"
         android:textSize="12dp"
         android:textColor="@android:color/holo_red_light"
         android:layout_marginLeft="8dp"
@@ -178,7 +178,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_margin="8dp"
-            android:text="save" />
+            android:text="@string/save" />
 
     </RelativeLayout>
 

@@ -19,7 +19,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="80dp"
             android:src="@drawable/police_officer"
-            android:contentDescription="Logo"/>
+            android:contentDescription="@string/logo"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/dragon_image"
             android:fontFamily="monospace"
-            android:text="Police Tryouts"
+            android:text="@string/police_tryouts"
             android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="@android:color/holo_green_dark"/>

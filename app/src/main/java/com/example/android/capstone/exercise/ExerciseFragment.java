@@ -97,11 +97,11 @@ public class ExerciseFragment extends Fragment {
         timeRemaining--;
         if ((timeRemaining % SPEAK_INTERVAL) == 0) {
             if (timeRemaining == 0) {
-                ttsManager.speak("time limit reached");
+                ttsManager.speak(getString(R.string.time_limit_reached));
             }  else {
-                String ending = "remaining";
+                String ending = getString(R.string.remaining);
                 if (timeRemaining < 0) {
-                    ending = "over";
+                    ending = getString(R.string.over);
                 }
                 ttsManager.speak(getTimeSpeech(timeRemaining) + " " + ending);
             }
@@ -112,12 +112,12 @@ public class ExerciseFragment extends Fragment {
         if (isStart) {
             chronometer.stop();
             isStart = false;
-            chronometerButton.setText("Start");
+            chronometerButton.setText(R.string.start);
         } else {
             chronometer.setBase(SystemClock.elapsedRealtime() + timeRemaining * 1000);
             chronometer.start();
             isStart = true;
-            chronometerButton.setText("Stop");
+            chronometerButton.setText(R.string.stop);
         }
     }
 
@@ -134,7 +134,7 @@ public class ExerciseFragment extends Fragment {
     }
 
     private void speakTimeLimit() {
-        ttsManager.speak("time limit " + getTimeSpeech(exercise.getTimeLimitInSeconds()));
+        ttsManager.speak(getString(R.string.time_limit) + getTimeSpeech(exercise.getTimeLimitInSeconds()));
     }
 
     private String getTimeSpeech(long time) {
@@ -146,9 +146,9 @@ public class ExerciseFragment extends Fragment {
         long min = time / 60;
         long sec = time % 60;
         if (min > 0) {
-            timeSpeech = "" + min + " minutes " + sec + " seconds";
+            timeSpeech = "" + min + getString(R.string.minutes) + sec + getString(R.string.seconds);
         } else {
-            timeSpeech = "" + sec + " seconds";
+            timeSpeech = "" + sec + getString(R.string.seconds);
         }
         return timeSpeech;
     }
