@@ -31,6 +31,9 @@ public interface JournalDao {
     @Query("SELECT distinct date from journal")
     LiveData<List<Date>> loadJournalDates();
 
+    @Query("SELECT distinct date from journal")
+    List<Date> loadJournalDatesForWidget();
+
     @Query("SELECT * from journal INNER JOIN Exercise ON journal.exerciseId = exercise.exerciseId WHERE journal.date = :date")
     List<JournalExercise> loadJournalEntryAndExerciseByDate(Date date);
 

@@ -8,13 +8,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.android.capstone.R;
 import com.example.android.capstone.data.UserInfo;
-import com.example.android.capstone.database.JournalDao;
 import com.example.android.capstone.exercise_program.ExerciseProgramActivity;
 import com.example.android.capstone.userinfo.UserInfoActivity;
 
@@ -28,14 +28,13 @@ public class JournalActivityBase extends AppCompatActivity {
     private UserInfo userInfo;
     private FloatingActionButton fab;
     private CardAdapter cardAdapter;
-    private List<JournalDao.JournalExercise> journalExercises;
-
-    // FIXME - add spinner
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.journal_layout);
+        Toolbar myToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
 
         viewModel = ViewModelProviders.of(this).get(JournalViewModel.class);
 
