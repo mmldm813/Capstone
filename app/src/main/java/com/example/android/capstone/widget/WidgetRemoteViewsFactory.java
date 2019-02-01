@@ -8,12 +8,8 @@ import android.widget.RemoteViewsService;
 
 import com.example.android.capstone.MyApplication;
 import com.example.android.capstone.R;
-import com.example.android.capstone.data.Exercise;
-import com.example.android.capstone.database.AppDatabase;
-import com.example.android.capstone.database.AppExecutors;
 import com.example.android.capstone.database.JournalDao;
 
-import java.sql.Date;
 import java.util.List;
 
 class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {

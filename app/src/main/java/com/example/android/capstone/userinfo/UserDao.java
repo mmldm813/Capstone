@@ -18,6 +18,9 @@ public interface UserDao {
     @Query("SELECT * FROM userinfo ORDER BY userId")
     LiveData<List<UserInfo>> loadAllUserInfo();
 
+    @Query("SELECT * FROM userinfo ORDER BY userId")
+    List<UserInfo> loadAllUserInfoFirstTimeUserExperience();
+
     @Insert
     long insertUserInfo(UserInfo userInfo);
 

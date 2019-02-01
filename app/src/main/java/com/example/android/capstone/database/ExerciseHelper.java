@@ -16,26 +16,29 @@ public class ExerciseHelper {
     private AppCompatActivity activity;
     private AppDatabase db;
     private Runnable onLoadComplete;
+    private Observer observer;
+    private LiveData<List<Exercise>> exercises;
 
     public ExerciseHelper(AppCompatActivity activity, AppDatabase db, Runnable onLoadComplete) {
         this.activity = activity;
         this.db = db;
         this.onLoadComplete = onLoadComplete;
+        this.exercises = db.exerciseDao().loadAllExercises();
     }
 
     public void loadDataIfEmpty() {
-        final LiveData<List<Exercise>> exercises = db.exerciseDao().loadAllExercises();
-        exercises.observe(activity, new Observer<List<Exercise>>() {
+        observer = new Observer<List<Exercise>>() {
             @Override
             public void onChanged(@Nullable List<Exercise> exercises) {
                 if (exercises.size() == 0) {
+                    ExerciseHelper.this.exercises.removeObserver(observer);
                     loadData();
                 } else {
                     onLoadComplete.run();
                 }
             }
-        });
-
+        };
+        exercises.observe(activity, observer);
     }
 
     private void loadData() {

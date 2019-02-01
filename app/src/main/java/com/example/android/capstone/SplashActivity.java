@@ -2,8 +2,8 @@ package com.example.android.capstone;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
@@ -14,7 +14,6 @@ import com.example.android.capstone.tts.TtsManager;
 
 public class SplashActivity extends AppCompatActivity {
     private TtsManager ttsManager;
-    private Handler handler;
     private ExerciseHelper exerciseHelper;
     private AppDatabase db;
 
@@ -25,27 +24,20 @@ public class SplashActivity extends AppCompatActivity {
 
         db = AppDatabase.getInstance(getApplicationContext());
 
-        handler = new Handler();
         ttsManager = new TtsManager();
         ttsManager.init(this, new TtsManager.Callbacks() {
             @Override
             public void onInitCompleted(boolean success) {
-                ((MyApplication)getApplicationContext()).setTtsManager(ttsManager);
+                ((MyApplication) getApplicationContext()).setTtsManager(ttsManager);
                 exerciseHelper = new ExerciseHelper(SplashActivity.this, db, new Runnable() {
                     @Override
                     public void run() {
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                startNextActivity();
-                            }
-                        }, 2000);
+                        new WaitOperation().execute();
                     }
                 });
                 exerciseHelper.loadDataIfEmpty();
             }
         });
-
     }
 
     private void startNextActivity() {
@@ -62,4 +54,23 @@ public class SplashActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         ttsManager.checkTextToSpeechInstalledResult(requestCode, resultCode);
     }
+
+    private class WaitOperation extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                Thread.interrupted();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            startNextActivity();
+        }
+    }
+
 }

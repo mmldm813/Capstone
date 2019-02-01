@@ -2,7 +2,6 @@ package com.example.android.capstone.data;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
 
 import com.example.android.capstone.database.GenderConverter;

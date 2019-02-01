@@ -15,12 +15,12 @@ import android.view.View;
 
 import com.example.android.capstone.R;
 import com.example.android.capstone.data.UserInfo;
+import com.example.android.capstone.database.AppDatabase;
+import com.example.android.capstone.database.AppExecutors;
 import com.example.android.capstone.exercise_program.ExerciseProgramActivity;
 import com.example.android.capstone.userinfo.UserInfoActivity;
 
 import java.util.List;
-
-import timber.log.Timber;
 
 public class JournalActivityBase extends AppCompatActivity {
 
@@ -78,10 +78,11 @@ public class JournalActivityBase extends AppCompatActivity {
     }
 
     private void performFirstTimeUserExperience() {
-        viewModel.getUserInfos().observe(this, new Observer<List<UserInfo>>() {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
-            public void onChanged(@Nullable List<UserInfo> userInfos) {
-                Timber.d("Receiving database update from LiveData");
+            public void run() {
+                AppDatabase db = AppDatabase.getInstance(JournalActivityBase.this);
+                List<UserInfo> userInfos = db.userDao().loadAllUserInfoFirstTimeUserExperience();
                 if (userInfos.size() == 0) {
                     UserInfoActivity.startWith(JournalActivityBase.this);
                     return;
@@ -108,6 +109,4 @@ public class JournalActivityBase extends AppCompatActivity {
             }
         });
     }
-
-
 }
